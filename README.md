@@ -1,341 +1,864 @@
-# 🧠 Quizzical — Flutter Trivia & Quiz App
+# Quizzical — Flutter Trivia & Quiz Application
 
-[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
-[![Provider](https://img.shields.io/badge/State_Management-Provider-blueviolet?style=for-the-badge)](https://pub.dev/packages/provider)
-[![API](https://img.shields.io/badge/API-Open_Trivia_DB-orange?style=for-the-badge)](https://opentdb.com/)
-[![Material Design](https://img.shields.io/badge/Material_3-Ready-green?style=for-the-badge)](https://m3.material.io/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+Quizzical is a multi-platform trivia application built with **Flutter** and the **Provider** state management pattern. It interfaces directly with the public **Open Trivia Database (OpenTDB)** REST API to dynamically fetch real-world trivia questions across dozens of categories, ranging from Science and Computers to History, Art, and Pop Culture.
 
-**Quizzical** is a modern, responsive, and feature-packed Flutter quiz application powered by the [Open Trivia Database (OpenTDB)](https://opentdb.com/) REST API. Built with clean architecture principles and the **Provider** state management pattern, Quizzical offers an engaging trivia experience with dynamic categories, customizable quiz configurations, real-time countdown timers, interactive answer reveals, score tracking, and persistent user preferences.
+The application is engineered with a strict separation of concerns, featuring reactive state management, asynchronous data fetching with automatic retry banners, HTML entity decoding, real-time countdown timers, interactive answer verification, persistent user settings, and detailed end-of-session performance analytics.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [✨ Key Features](#-key-features)
-- [📱 App Walkthrough & User Flow](#-app-walkthrough--user-flow)
-- [🏗️ Architecture & Project Structure](#️-architecture--project-structure)
-- [🎨 Design System & Theme](#-design-system--theme)
-- [🌐 API Integration (OpenTDB)](#-api-integration-opentdb)
-- [⚙️ State Management (Provider)](#️-state-management-provider)
-- [💾 Local Persistence (SharedPreferences)](#-local-persistence-sharedpreferences)
-- [🚀 Getting Started](#-getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation & Setup](#installation--setup)
-  - [Running the App](#running-the-app)
-- [🔧 Configuration & Customization](#-configuration--customization)
-- [📦 Key Dependencies](#-key-dependencies)
-- [👨‍💻 Author & Acknowledgments](#-author--acknowledgments)
-
----
-
-## ✨ Key Features
-
-- **🌐 Live Trivia Categories**: Fetches 20+ trivia categories directly from the Open Trivia Database API (e.g., General Knowledge, Science & Nature, Computers, History, Film, Music, Sports, Anime, and more).
-- **🎨 Dynamic Pastel Category Cards**: Each category is paired with custom pastel aesthetics and context-aware category icons (books, controllers, science beakers, globe, etc.).
-- **⚙️ Deep Quiz Customization**:
-  - **Question Count**: Adjustable slider (1 to 50 questions, default 10).
-  - **Difficulty Filter**: Any, Easy, Medium, or Hard.
-  - **Question Type**: Multiple Choice (4 choices) or True / False (boolean).
-- **⏱️ Real-time 30-Second Question Timer**:
-  - Visual countdown timer per question.
-  - Visual color alerts (transitions to red when $\le 5$ seconds remain).
-  - Auto-timeout handling: reveals correct answer automatically and advances smoothly.
-- **🎯 Instant Interactive Feedback**:
-  - Highlights correct answers in soothing mint green (`#B2DFDB`).
-  - Highlights wrong selections in coral red (`#FFA1A1`) while revealing the correct answer.
-  - Randomized answer positions with HTML entity decoding (e.g., `&quot;`, `&#039;`).
-- **📊 Comprehensive Results & Performance Analytics**:
-  - Accuracy percentage calculation with responsive badge colors (green for $\ge 70\%$, orange for $< 70\%$).
-  - Elapsed total quiz session time formatted in minutes and seconds (`Xm Ys`).
-  - Motivational messages tailored to performance with an instant "Play Again" flow.
-- **🛡️ Progress Safeguards & Confirmation**:
-  - Mid-quiz confirmation dialog to prevent accidental exits and loss of progress.
-- **💾 Preference Persistence**:
-  - Saves your last chosen question amount, difficulty, question type, and category via `SharedPreferences`.
-- **🔄 Robust Error Handling & Skeletons**:
-  - Custom skeleton loading states for category grids and quiz questions.
-  - Inline retry banners for network drops or API rate limit issues.
-- **📱 Responsive & Cross-Platform**:
-  - Adaptive column layouts supporting phones, tablets, and desktop/web widths.
+1. [Project Overview & Exam Objectives](#1-project-overview--exam-objectives)
+2. [Key Features & Capabilities](#2-key-features--capabilities)
+3. [System Architecture & Design Patterns](#3-system-architecture--design-patterns)
+4. [File & Directory Structure](#4-file--directory-structure)
+5. [User Flow & Screen-by-Screen Breakdown](#5-user-flow--screen-by-screen-breakdown)
+   - [5.1 Welcome Screen](#51-welcome-screen)
+   - [5.2 Category Selection Screen](#52-category-selection-screen)
+   - [5.3 Quiz Configuration Screen](#53-quiz-configuration-screen)
+   - [5.4 Interactive Quiz Screen](#54-interactive-quiz-screen)
+   - [5.5 Results & Performance Screen](#55-results--performance-screen)
+6. [State Management Architecture (Provider)](#6-state-management-architecture-provider)
+   - [6.1 Quiz Phase Lifecycle & State Machine](#61-quiz-phase-lifecycle--state-machine)
+   - [6.2 Category Load Lifecycle](#62-category-load-lifecycle)
+7. [API Integration (Open Trivia Database)](#7-api-integration-open-trivia-database)
+   - [7.1 Endpoints Specification](#71-endpoints-specification)
+   - [7.2 API Response Codes & Error Mapping](#72-api-response-codes--error-mapping)
+   - [7.3 Sample API Payloads](#73-sample-api-payloads)
+8. [Data Models & HTML Entity Decoding](#8-data-models--html-entity-decoding)
+9. [Local Persistence (SharedPreferences)](#9-local-persistence-sharedpreferences)
+10. [Design System, Colors & Typography](#10-design-system-colors--typography)
+11. [Error Handling & Edge Cases](#11-error-handling--edge-cases)
+12. [Prerequisites & Development Environment](#12-prerequisites--development-environment)
+13. [Installation & Build Instructions](#13-installation--build-instructions)
+14. [Testing & Quality Assurance](#14-testing--quality-assurance)
+15. [Configuration & Customization Guide](#15-configuration--customization-guide)
+16. [Dependencies Reference](#16-dependencies-reference)
+17. [Project Metadata & Author Information](#17-project-metadata--author-information)
 
 ---
 
-## 📱 App Walkthrough & User Flow
+## 1. Project Overview & Exam Objectives
 
-```mermaid
-flowchart LR
-    A[Welcome Screen] -->|Start Quiz| B[Category Selection]
-    B -->|Select Category| C[Quiz Configuration]
-    C -->|Start| D[Quiz Playing Screen]
-    D -->|Timer / Answers| D
-    D -->|Last Question| E[Results Screen]
-    E -->|Play Again| B
+This application was developed as a comprehensive Flutter project exam submission demonstrating mastery of modern Flutter development practices. 
+
+### Key Technical Competencies Demonstrated:
+- **Clean Architecture & Separation of Concerns**: Complete isolation of Presentation (Screens/Widgets), Domain/State (Providers), Data Models, and Remote Services (REST API).
+- **Asynchronous Programming**: Effective use of Dart `async`/`await`, `Future`, Streams, and periodic timers (`Timer.periodic`).
+- **State Management**: Scalable reactive state management using `MultiProvider`, `ChangeNotifier`, `context.watch`, `context.read`, and listener callbacks.
+- **RESTful API Integration**: Direct communication with external endpoints using `package:http`, handling HTTP status codes, parsing complex JSON structures, and gracefully handling API-level error responses.
+- **Data Sanitization**: Handling character encoding quirks in raw API responses using custom regex-based HTML entity decoders (converting entities like `&quot;`, `&#039;`, and hexadecimal encodings to readable UTF-8 text).
+- **Persistent Storage**: Utilizing `shared_preferences` to persist user configuration between sessions.
+- **UX/UI Polish**: Smooth transitions, loading skeletons, error banners with retry triggers, countdown timers with visual urgency warnings, and exit confirmation dialogs.
+
+---
+
+## 2. Key Features & Capabilities
+
+- **Live Category Discovery**:
+  - Automatically queries the OpenTDB categories endpoint on startup.
+  - Caches categories in memory to minimize network bandwidth and prevent rate limiting.
+  - Maps 24+ trivia categories into distinct pastel cards with category-specific Material icons (e.g., Books, Science, Sports, Mythology, Video Games, Geography).
+- **Tailored Quiz Configuration**:
+  - **Question Count Slider**: Choose anywhere between 1 and 50 questions (default: 10).
+  - **Difficulty Filter**: Select between Any, Easy, Medium, or Hard.
+  - **Question Type**: Choose between 4-Option Multiple Choice (`multiple`) or True/False Boolean questions (`boolean`).
+- **Real-Time 30-Second Question Timer**:
+  - Real-time countdown timer tracking each individual question.
+  - Visual color shift to red when remaining time drops to 5 seconds or less.
+  - Automatic timeout handler: when time expires, the correct answer is revealed, user input is locked, and the app auto-advances.
+- **Instant Visual Feedback & Shuffled Answers**:
+  - Options are dynamically randomized upon fetching so the correct answer never appears in a fixed position.
+  - Instant selection feedback:
+    - **Correct selection**: Highlighted in soft mint green (`#B2DFDB`) with a checkmark.
+    - **Incorrect selection**: Highlighted in coral red (`#FFA1A1`) with an error indicator, while simultaneously highlighting the correct answer in green.
+    - **Timeout state**: Highlights the correct answer in green to provide educational feedback.
+- **Performance Evaluation & Analytics**:
+  - Live score counter updated in real-time.
+  - Linear progress bar visualizing completion percentage through the quiz.
+  - Session stopwatch tracking total elapsed time from first question to completion.
+  - Accuracy calculation (`(score / total) * 100`).
+  - Dynamic result states:
+    - High Score ($\ge 70\%$): Celebration theme with soft green badge and congratulatory feedback.
+    - Needs Practice ($< 70\%$): Motivational workout theme with orange badge and encouraging message.
+- **Exit Protection**:
+  - Mid-quiz confirmation dialog alerting users that in-progress session data will be cleared if they exit early.
+- **Preference Persistence**:
+  - Last-used settings (question amount, difficulty, question type, category) are automatically persisted and restored on future launches.
+
+---
+
+## 3. System Architecture & Design Patterns
+
+The application adopts a **Layered MVVM Architecture** combined with the **Provider** pattern:
+
+```
++------------------------------------------------------------------+
+|                        PRESENTATION LAYER                        |
+|                                                                  |
+|   +-----------------------+            +---------------------+   |
+|   |        Screens        |            |   Custom Widgets    |   |
+|   |  - WelcomeScreen      |            |  - RetryBanner      |   |
+|   |  - CategoryScreen     | <--------> |  - SkeletonGrid     |   |
+|   |  - QuizConfigScreen   |            |  - LoadingSkeleton  |   |
+|   |  - QuizScreen         |            |  - AnswerTile       |   |
+|   |  - ResultsScreen      |            +---------------------+   |
++------------------------------------------------------------------+
+                                 |
+                          (State Observers)
+                                 v
++------------------------------------------------------------------+
+|                    STATE MANAGEMENT (PROVIDERS)                  |
+|                                                                  |
+|   +--------------------------+      +------------------------+   |
+|   |     CategoryProvider     |      |      QuizProvider      |   |
+|   |  - Manages categories    |      |  - Active session      |   |
+|   |  - In-memory cache       |      |  - 30s Countdown timer |   |
+|   |  - Load state & errors   |      |  - Scoring & progress  |   |
+|   +--------------------------+      +------------------------+   |
++------------------------------------------------------------------+
+                                 |
+                            (Delegates)
+                                 v
++------------------------------------------------------------------+
+|                       DATA / SERVICE LAYER                       |
+|                                                                  |
+|   +--------------------------+      +------------------------+   |
+|   |      OpenTdbService      |      |   SharedPreferences    |   |
+|   |  - REST API client       |      |  - Category, amount    |   |
+|   |  - Error code handling   |      |  - Difficulty & type   |   |
+|   +--------------------------+      +------------------------+   |
+|                                 |                                |
+|   +----------------------------------------------------------+   |
+|   |                      Data Models                         |   |
+|   |  - TriviaCategory (id, name)                             |   |
+|   |  - TriviaQuestion (question, answers, HTML decoding)     |   |
++------------------------------------------------------------------+
 ```
 
-### 1. Welcome Screen (`WelcomeScreen`)
-- Displays playful illustrated vector art with decorative geometric accents.
-- Displays app branding **Quizzical** alongside the student/creator name.
-- Primary **"START QUIZ"** action button launching category exploration.
-
-### 2. Category Selection Screen (`CategorySelectionScreen`)
-- Automatically loads categories from OpenTDB with in-memory caching to avoid redundant requests.
-- Grid view with pastel-tinted cards and domain-specific icons.
-- Skeleton placeholder shimmer effect during initial network requests.
-- Non-intrusive retry banner if network connectivity is lost.
-
-### 3. Quiz Configuration Screen (`QuizConfigScreen`)
-- Fine-tune your trivia experience:
-  - **Amount Slider**: 1 to 50 questions.
-  - **Difficulty Dropdown**: Any, Easy, Medium, Hard.
-  - **Type Dropdown**: Multiple Choice or True / False.
-- Automatically saves selected parameters for future sessions.
-- Displays a dedicated loading skeleton while fetching and assembling questions.
-
-### 4. Quiz Screen (`QuizScreen`)
-- Header displaying current question indicator (`X / Total`), linear progress bar, live score counter, and remaining time.
-- Question card with decoded HTML typography.
-- Answer tiles with instant visual color response (correct, incorrect, or timeout state).
-- "Next" / "See Results" action button for user-controlled pacing.
-- Safety dialog on exit attempt.
-
-### 5. Results Screen (`ResultsScreen`)
-- Celebration icon & message for scores $\ge 70\%$, or encouraging workout icon for scores $< 70\%$.
-- Score percentage badge with soft elevation shadow.
-- Breakdown of correct answers and total time elapsed.
-- "PLAY AGAIN" button resetting session state and returning to category selection.
+### Key Architectural Strengths:
+1. **Loose Coupling**: Screens never invoke `http.get` directly. All network interaction is mediated through `OpenTdbService` and exposed to the UI via `CategoryProvider` and `QuizProvider`.
+2. **Testability**: `OpenTdbService` accepts an optional `http.Client`, enabling painless mocking and dependency injection during unit and widget testing.
+3. **Resilience**: Network failures do not crash the app. The provider catches exceptions, sets dedicated error flags, and the UI presents inline retry banners.
 
 ---
 
-## 🏗️ Architecture & Project Structure
-
-The project follows a clean **MVVM-inspired layered architecture** utilizing Flutter's **Provider** pattern:
+## 4. File & Directory Structure
 
 ```
 FlutterClassExam/
-├── android/                      # Android native configuration
-├── ios/                          # iOS native configuration
-├── web/                          # Web configuration & assets
-├── assets/                       # Static assets and screenshots
-│   ├── logo.png                  # App icon / launcher logo
-│   └── screenshots/              # UI screenshots
+│
 ├── lib/
-│   ├── main.dart                 # Application entry point & Provider registration
-│   ├── app.dart                  # QuizzicalApp MaterialApp root & theme setup
-│   ├── core/
-│   │   ├── quiz_constants.dart   # App-wide constants (student name, timers, keys)
-│   │   └── quiz_theme.dart       # Material 3 theme data, colors, typography
-│   ├── models/
-│   │   ├── trivia_category.dart  # TriviaCategory model with JSON serialization
-│   │   └── trivia_question.dart  # TriviaQuestion model with HTML entity decoding
-│   ├── services/
-│   │   └── opentdb_service.dart  # OpenTDB REST API client & error handling
-│   ├── providers/
-│   │   ├── category_provider.dart# State management for category fetching & caching
-│   │   └── quiz_provider.dart    # State management for active quiz, timer & scoring
-│   ├── ui/
-│   │   ├── screens/
-│   │   │   ├── welcome_screen.dart           # Intro screen with branding
-│   │   │   ├── category_selection_screen.dart# Category grid screen
-│   │   │   ├── quiz_config_screen.dart       # Filters and quiz settings screen
-│   │   │   ├── quiz_screen.dart              # Interactive quiz playing screen
-│   │   │   └── results_screen.dart           # Final score and stats screen
-│   │   └── widgets/
-│   │       └── quiz_widgets.dart             # RetryBanner, CategorySkeletonGrid, QuizLoadingSkeleton
-│   └── ...
-├── pubspec.yaml                  # Project dependencies and asset definitions
-└── README.md                     # Project documentation
+│   ├── main.dart                       # App entry point, MultiProvider registration
+│   ├── app.dart                        # MaterialApp root, theme binding & initial route
+│   │
+│   ├── core/                           # Application core configurations
+│   │   ├── quiz_constants.dart         # Constants (student name, timers, keys)
+│   │   └── quiz_theme.dart             # Palette tokens, button styles, Google Fonts
+│   │
+│   ├── models/                         # Domain entity models
+│   │   ├── trivia_category.dart        # Trivia category data class & JSON deserializer
+│   │   └── trivia_question.dart        # Question entity with HTML entity decoding
+│   │
+│   ├── services/                       # External service clients
+│   │   └── opentdb_service.dart        # Open Trivia Database API client & exceptions
+│   │
+│   ├── providers/                      # Business logic & reactive state
+│   │   ├── category_provider.dart      # Category fetching & cache provider
+│   │   └── quiz_provider.dart          # Quiz session, timer, and score provider
+│   │
+│   └── ui/                             # User interface layer
+│       ├── screens/
+│       │   ├── welcome_screen.dart             # Splash & welcome screen
+│       │   ├── category_selection_screen.dart  # Grid view of all trivia categories
+│       │   ├── quiz_config_screen.dart         # Sliders, dropdowns & quiz start
+│       │   ├── quiz_screen.dart                # Main interactive question runner
+│       │   └── results_screen.dart             # Score card & analytics screen
+│       └── widgets/
+│           └── quiz_widgets.dart               # Skeletons, loaders, and retry banners
+│
+├── pubspec.yaml                        # Project metadata, dependencies & assets
+└── README.md                           # Comprehensive documentation
 ```
 
 ---
 
-## 🎨 Design System & Theme
+## 5. User Flow & Screen-by-Screen Breakdown
 
-Quizzical implements a customized **Material 3** theme with bespoke color tokens and typography from **Google Fonts**:
-
-### 🎨 Color Palette
-
-| Token | Hex | Preview | Description |
-|---|---|---|---|
-| `kQuizPrimary` | `#00695C` | ![#00695C](https://via.placeholder.com/15/00695C/000000?text=+) | Deep Teal (Brand Primary) |
-| `kQuizPrimaryDark` | `#004D40` | ![#004D40](https://via.placeholder.com/15/004D40/000000?text=+) | Dark Teal (Buttons & Accents) |
-| `kQuizBg` | `#F2F2F2` | ![#F2F2F2](https://via.placeholder.com/15/F2F2F2/000000?text=+) | Light Canvas Background |
-| `kQuizText` | `#37474F` | ![#37474F](https://via.placeholder.com/15/37474F/000000?text=+) | Slate Charcoal (Primary Text) |
-| `kQuizCorrectBg` | `#B2DFDB` | ![#B2DFDB](https://via.placeholder.com/15/B2DFDB/000000?text=+) | Mint Green (Correct Answer Highlight) |
-| `kQuizIncorrectBg` | `#FFA1A1` | ![#FFA1A1](https://via.placeholder.com/15/FFA1A1/000000?text=+) | Coral Pink (Incorrect Answer Highlight) |
-| `kQuizScoreGood` | `#C8E6C9` | ![#C8E6C9](https://via.placeholder.com/15/C8E6C9/000000?text=+) | Soft Green (High Score Badge $\ge 70\%$) |
-| `kQuizScoreBad` | `#FF7043` | ![#FF7043](https://via.placeholder.com/15/FF7043/000000?text=+) | Deep Orange (Low Score Badge $< 70\%$) |
-
-### 🔤 Typography
-- **Headings & Buttons**: `GoogleFonts.poppins` for clean, modern legibility.
-- **Subtitles & Italic Accents**: `GoogleFonts.lora` for refined editorial contrast.
-
----
-
-## 🌐 API Integration (OpenTDB)
-
-The app integrates with the public **[Open Trivia Database](https://opentdb.com/api_config.php)**:
-
-### Endpoints Used
-
-1. **Fetch Categories**:
-   ```http
-   GET https://opentdb.com/api_category.php
-   ```
-   *Returns the full catalog of available trivia categories and IDs.*
-
-2. **Fetch Questions**:
-   ```http
-   GET https://opentdb.com/api.php?amount={amount}&category={categoryId}&difficulty={difficulty}&type={type}
-   ```
-   *Query Parameters:*
-   - `amount`: Number of questions requested (1–50).
-   - `category`: Category ID (e.g., `9` for General Knowledge, `18` for Computers).
-   - `difficulty`: `easy`, `medium`, or `hard` (omitted if 'any').
-   - `type`: `multiple` or `boolean` (omitted if 'any').
-
-### Robust HTML Entity Decoding
-Trivia questions and answers from OpenTDB often contain HTML entities (e.g., `&quot;`, `&#039;`, `&amp;`, `&eacute;`). Quizzical includes a custom regex-based parser in [trivia_question.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/models/trivia_question.dart) supporting decimal (`&#NN;`), hexadecimal (`&#xHH;`), and standard named HTML entities.
-
----
-
-## ⚙️ State Management (Provider)
-
-Quizzical utilizes `provider` with `ChangeNotifier` for clean, decoupled state:
-
-```mermaid
-graph TD
-    A[main.dart: MultiProvider] --> B[CategoryProvider]
-    A --> C[QuizProvider]
-    B -->|Categories Cache & Loading States| D[CategorySelectionScreen]
-    C -->|Configuration & Persistence| E[QuizConfigScreen]
-    C -->|Timer, Scoring, Phase, Current Question| F[QuizScreen]
-    C -->|Score, Elapsed Time, Accuracy| G[ResultsScreen]
+```
++------------------+         +----------------------------+
+|  Welcome Screen  | ------> |  Category Selection Screen |
++------------------+         +----------------------------+
+                                           |
+                                           v
++------------------+         +----------------------------+
+|  Results Screen  | <------ |     Active Quiz Screen     |
++------------------+         +----------------------------+
+         |                                 ^
+         |                                 |
+         +------- (Play Again) ------------+
 ```
 
-- **`CategoryProvider`**:
-  - Handles `CategoryLoadState` (`initial`, `loading`, `loaded`, `error`).
-  - In-memory caching: loads categories once per app run unless an explicit retry is requested.
-- **`QuizProvider`**:
-  - Handles `QuizPhase` (`idle`, `loading`, `playing`, `answered`, `finished`, `error`).
-  - Controls 30s countdown timer via Dart's `Timer.periodic`.
-  - Tracks score, selected answers, timeout events, and total time elapsed.
-  - Automatically loads and persists configuration preferences.
+---
+
+### 5.1 Welcome Screen
+
+**File**: `lib/ui/screens/welcome_screen.dart`  
+**Purpose**: Serves as the landing hub of the application, introducing the app identity and the author/student credentials.
+
+```
++----------------------------------------------------+
+|                                                    |
+|                    [ ? ]                           |
+|               (o)  ( O )  (?)                      |
+|                  Welcome Art                       |
+|                                                    |
+|                    Quizzical                       |
+|                   Imam Hosen                       |
+|                                                    |
+|                                                    |
+|              [   START QUIZ   ]                    |
+|                                                    |
++----------------------------------------------------+
+```
+
+- **Visual Art Component (`_WelcomeArt`)**: A layered composition using soft circular blobs, colorful accent icons, and an expressive avatar circle.
+- **Branding**:
+  - Title: **Quizzical** styled with `GoogleFonts.poppins` (font size 36–42, bold).
+  - Subtitle: **Imam Hosen** (sourced dynamically from `kStudentName` in `quiz_constants.dart`).
+- **Responsive Layout**: Uses `MediaQuery.sizeOf(context)` to switch padding and typography dynamically between compact mobile screens and wide tablet/desktop viewports.
+- **Action**: A prominent full-width elevated button triggering navigation to the Category Selection Screen.
 
 ---
 
-## 💾 Local Persistence (SharedPreferences)
+### 5.2 Category Selection Screen
 
-The app remembers user settings between app launches using `shared_preferences`:
+**File**: `lib/ui/screens/category_selection_screen.dart`  
+**Purpose**: Displays all available trivia topics fetched from the OpenTDB API in an interactive pastel grid.
 
-| Preference Key | Type | Description | Default |
-|---|---|---|---|
-| `quiz_amount` | `int` | Number of questions per quiz | `10` |
-| `quiz_difficulty`| `String` | Difficulty level (`any`, `easy`, `medium`, `hard`) | `'any'` |
-| `quiz_type` | `String` | Question format (`multiple`, `boolean`) | `'multiple'` |
-| `quiz_category_id` | `int` | Last chosen category ID | `null` |
-| `quiz_category_name` | `String` | Last chosen category name | `''` |
+```
++----------------------------------------------------+
+|  Quizzical                                         |
+|  choose a category to focus on:                    |
+|----------------------------------------------------|
+|  +--------------------+    +--------------------+  |
+|  |     [Icon: Book]   |    |     [Icon: Film]   |  |
+|  |  General Knowledge |    |   Film & Cinema    |  |
+|  +--------------------+    +--------------------+  |
+|  +--------------------+    +--------------------+  |
+|  |   [Icon: Computer] |    |    [Icon: Sports]  |  |
+|  |   Science & Tech   |    |       Sports       |  |
+|  +--------------------+    +--------------------+  |
+|  +--------------------+    +--------------------+  |
+|  |    [Icon: History] |    |  [Icon: Mythology] |  |
+|  |       History      |    |      Mythology     |  |
+|  +--------------------+    +--------------------+  |
++----------------------------------------------------+
+```
+
+- **Automatic Fetching**: Dispatches `CategoryProvider.loadCategories()` in `initState` via `addPostFrameCallback`.
+- **In-Memory Caching**: If categories were already loaded previously in the session, they are rendered immediately without triggering a new network request.
+- **Dynamic Icons (`_iconFor`)**: Analyzes the category title string and assigns an intuitive icon:
+  - Books / Literature $\rightarrow$ `Icons.menu_book`
+  - Movies / Film $\rightarrow$ `Icons.movie`
+  - Music $\rightarrow$ `Icons.music_note`
+  - Television $\rightarrow$ `Icons.tv`
+  - Video Games $\rightarrow$ `Icons.sports_esports`
+  - Science & Nature $\rightarrow$ `Icons.science`
+  - Computers $\rightarrow$ `Icons.computer`
+  - Mathematics $\rightarrow$ `Icons.calculate`
+  - Sports $\rightarrow$ `Icons.sports_soccer`
+  - Geography $\rightarrow$ `Icons.public`
+  - History $\rightarrow$ `Icons.history_edu`
+  - Art $\rightarrow$ `Icons.palette`
+- **Pastel Color Rotation**: Cards cycle through 12 harmonious pastel shades (`kCategoryPastels`).
+- **Skeleton Shimmer**: When loading, renders `CategorySkeletonGrid` containing placeholder card containers.
+- **Retry Mechanism**: If network failure occurs, renders a `RetryBanner` with a one-click retry button.
 
 ---
 
-## 🚀 Getting Started
+### 5.3 Quiz Configuration Screen
 
-### Prerequisites
+**File**: `lib/ui/screens/quiz_config_screen.dart`  
+**Purpose**: Gives the user granular control over question count, difficulty, and question type for the chosen category.
 
-Ensure you have the following installed on your machine:
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) (`^3.11.1` or higher)
-- [Dart SDK](https://dart.dev/get-dart)
-- An active emulator, simulator, or physical device (Android, iOS, macOS, Windows, Linux, or Web)
+```
++----------------------------------------------------+
+|  <- Configuration                                  |
+|----------------------------------------------------|
+|                                                    |
+|                    Quizzical                       |
+|                  Configuration                     |
+|               Science: Computers                   |
+|                                                    |
+|  Amount                                         10 |
+|  [===========o-----------------------------------] |
+|                                                    |
+|  Difficulty                                        |
+|  [ Any / Easy / Medium / Hard                    v]|
+|                                                    |
+|  Type                                              |
+|  [ Multiple Choice / True or False               v]|
+|                                                    |
+|                                                    |
+|              [      START     ]                    |
++----------------------------------------------------+
+```
 
-### Installation & Setup
+- **Category Header**: Displays the name of the category selected from the previous screen.
+- **Amount Slider (`_AmountSlider`)**:
+  - Range: `1` to `50` questions.
+  - Granularity: Step intervals of 1.
+  - Active tracker with real-time numeric counter.
+- **Difficulty Dropdown (`_LabeledDropdown`)**:
+  - Options: `Any` (all difficulties), `Easy`, `Medium`, `Hard`.
+- **Question Format Dropdown**:
+  - Options: `Multiple Choice` (4 answers) or `True / False` (Boolean).
+- **Persistent Memory**: Any adjusted setting is automatically saved to device disk using `SharedPreferences`.
+- **Validation & Loading**: Displays `QuizLoadingSkeleton` while the API request is dispatched to OpenTDB. If the API reports insufficient questions for that specific configuration, an informative error message is displayed.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Niaze-33/FlutterClassExam.git
-   cd FlutterClassExam
-   ```
+---
 
-2. **Install Flutter packages**:
-   ```bash
-   flutter pub get
-   ```
+### 5.4 Interactive Quiz Screen
 
-3. **Verify Flutter setup**:
-   ```bash
-   flutter doctor
-   ```
+**File**: `lib/ui/screens/quiz_screen.dart`  
+**Purpose**: The central quiz engine displaying questions, countdown timers, randomized options, and immediate visual feedback.
 
-### Running the App
+```
++----------------------------------------------------+
+|                    3 / 10               [ EXIT ]   |
+|  [==================-----------------------------] |
+|  Score: 2                                   24s    |
+|----------------------------------------------------|
+|  +-----------------------------------------------+ |
+|  | What does "CPU" stand for in computing?       | |
+|  +-----------------------------------------------+ |
+|                                                    |
+|  +-----------------------------------------------+ |
+|  | Central Processing Unit             [ ( * ) ] | |
+|  +-----------------------------------------------+ |
+|  +-----------------------------------------------+ |
+|  | Computer Personal Unit              [ (   ) ] | |
+|  +-----------------------------------------------+ |
+|  +-----------------------------------------------+ |
+|  | Central Program Utility             [ (   ) ] | |
+|  +-----------------------------------------------+ |
+|  +-----------------------------------------------+ |
+|  | Core Processor Unit                 [ (   ) ] | |
+|  +-----------------------------------------------+ |
+|                                                    |
+|              [   NEXT QUESTION   ]                 |
++----------------------------------------------------+
+```
 
-Run on your connected device or simulator:
+- **Live Progress & Meta Header**:
+  - Question Counter: Current index vs total count (e.g., `4/10`).
+  - Progress Bar: `LinearProgressIndicator` tracking fractional progress (`(index + 1) / total`).
+  - Live Score: Tracks cumulative points awarded.
+  - Timer: Shows remaining seconds. If $\le 5$ seconds, transitions from brand teal to alerting red with an hourglass/timer icon.
+- **Exit Protection (`_exit`)**:
+  - Tapping "EXIT" prompts an `AlertDialog`: *"Your progress for this session will be lost."*
+  - Confirming resets the quiz session and cleanly pops back to the category selection root.
+- **Question Card**: Card container with subtle drop shadow, displaying the decoded UTF-8 question text.
+- **Answer Selection Mechanics**:
+  - Tapping an option halts the countdown timer immediately.
+  - **Correct Answer**: Tile turns soft mint teal (`#B2DFDB`) with a green checkmark icon.
+  - **Incorrect Answer**: Tile turns coral red (`#FFA1A1`) with an error cancel icon, and the true correct answer is simultaneously revealed in green.
+  - Once answered, all option tiles lock to prevent multi-tapping.
+  - A bottom button appears: `"Next"` (or `"See Results"` if on the final question).
+- **Timeout Handling**:
+  - If the timer hits zero before an option is tapped, the timeout handler locks input, marks `timedOut = true`, reveals the correct answer in green, and automatically transitions after an 800ms preview.
 
+---
+
+### 5.5 Results & Performance Screen
+
+**File**: `lib/ui/screens/results_screen.dart`  
+**Purpose**: Summarizes user achievements, accuracy metrics, time taken, and provides an immediate loop to restart.
+
+```
++----------------------------------------------------+
+|                                                    |
+|                    [ * * * ]                       |
+|               ( Celebration Icon )                 |
+|                                                    |
+|                  Congratulation                    |
+|                                                    |
+|                    +-------+                       |
+|                    |  90%  |                       |
+|                    +-------+                       |
+|                                                    |
+|               You scored 9/10!                     |
+|              Total time: 1m 24s                    |
+|                                                    |
+|   You've got a great foundation. Ready to try a    |
+|               different category?                  |
+|                                                    |
+|                                                    |
+|              [   PLAY AGAIN   ]                    |
++----------------------------------------------------+
+```
+
+- **Accuracy Computation**: `accuracyPercent = (score / totalQuestions) * 100`.
+- **Dynamic Conditional Feedback**:
+  - **Score $\ge 70\%$ (Passing / High Score)**:
+    - Celebration icon: `Icons.celebration` in warm pink.
+    - Title: `"Congratulation"`.
+    - Badge: Soft green container (`#C8E6C9`).
+    - Body message: *"You've got a great foundation. Ready to try a different category?"*
+  - **Score $< 70\%$ (Needs Improvement)**:
+    - Encouragement icon: `Icons.fitness_center` in vibrant orange.
+    - Title: `"Keep Trying!"`.
+    - Badge: Deep energetic orange (`#FF7043`).
+    - Body message: *"Don't give up! Practice makes perfect. Try again to improve your score."*
+- **Elapsed Duration Tracking**:
+  - Displays total minutes and seconds spent in the quiz session formatted via `_formatDuration` (e.g., `2m 14s` or `45s`).
+- **Play Again Action**:
+  - Calls `QuizProvider.resetSession()`.
+  - Clears question lists, timer instances, and score tallies while keeping user configuration preferences intact.
+  - Clears navigation history with `pushAndRemoveUntil` back to the Category Selection Screen.
+
+---
+
+## 6. State Management Architecture (Provider)
+
+State is managed reactively via the **Provider** package (`provider: ^6.1.5+1`). Two core ChangeNotifier providers power the application:
+
+```
+MultiProvider
+├── CategoryProvider (OpenTdbService)
+└── QuizProvider (OpenTdbService)
+```
+
+---
+
+### 6.1 Quiz Phase Lifecycle & State Machine
+
+The active quiz execution follows a finite state machine defined by the `QuizPhase` enum:
+
+```
+           +----------+
+           |   IDLE   |
+           +----------+
+                 |
+             startQuiz()
+                 |
+                 v
+           +----------+   (Network / Parameter Error)
+           | LOADING  | -----------------------------> +----------+
+           +----------+                                |  ERROR   |
+                 |                                     +----------+
+          (Questions Ready)                                  |
+                 |                                      (Retry Start)
+                 v                                           |
+    +----->+----------+ <------------------------------------+
+    |      | PLAYING  | <-------------+
+    |      +----------+               |
+    |            |                    |
+    |      (Select Answer             |
+    |        or Timeout)         nextQuestion()
+    |            |                    |
+    |            v                    |
+    |      +----------+               |
+    |      | ANSWERED | --------------+
+    |      +----------+ (Not Last Question)
+    |            |
+    |       (Is Last Question)
+    |            |
+    |            v
+    |      +----------+
+    |      | FINISHED |
+    |      +----------+
+    |            |
+    +---- resetSession()
+```
+
+#### Lifecycle State Descriptions:
+1. **`QuizPhase.idle`**: Default quiescent state. No active quiz is in memory.
+2. **`QuizPhase.loading`**: Questions are currently being retrieved and parsed from the OpenTDB API. A loading skeleton is rendered.
+3. **`QuizPhase.playing`**: The question is active. The 30-second countdown timer ticks every 1000ms. Answer tiles are clickable.
+4. **`QuizPhase.answered`**: The user selected an answer OR the 30-second timer reached zero. The timer is halted, the correct answer is revealed, and the `"Next"` button appears.
+5. **`QuizPhase.finished`**: All questions have been answered. Total elapsed time is captured. The UI navigates to `ResultsScreen`.
+6. **`QuizPhase.error`**: The API returned an error code or a network exception was caught. A retry banner is presented.
+
+---
+
+### 6.2 Category Load Lifecycle
+
+`CategoryProvider` coordinates category discovery using `CategoryLoadState`:
+
+```
++------------+      loadCategories()      +------------+
+|  INITIAL   | -------------------------> |  LOADING   |
++------------+                            +------------+
+                                                |
+                               +----------------+---------------+
+                               |                                |
+                        (HTTP 200 & Valid)             (Exception / Socket)
+                               |                                |
+                               v                                v
+                        +------------+                   +------------+
+                        |   LOADED   |                   |   ERROR    |
+                        +------------+                   +------------+
+                               |                                |
+                        (In-Memory Cache)                (force: true)
+                               |                                |
+                               +--------------------------------+
+```
+
+- When `loadCategories()` is invoked with `force = false`, it returns immediately if `_categories.isNotEmpty`, sparing unnecessary network round-trips.
+- When `force = true` is passed (e.g., from the Retry button), it bypasses the cache and queries the API fresh.
+
+---
+
+## 7. API Integration (Open Trivia Database)
+
+The application consumes endpoints hosted by **[Open Trivia Database](https://opentdb.com/)**.
+
+### 7.1 Endpoints Specification
+
+#### 1. Category Index Endpoint
+- **URL**: `https://opentdb.com/api_category.php`
+- **Method**: `GET`
+- **Response Structure**:
+```json
+{
+  "trivia_categories": [
+    { "id": 9, "name": "General Knowledge" },
+    { "id": 10, "name": "Entertainment: Books" },
+    { "id": 11, "name": "Entertainment: Film" },
+    { "id": 18, "name": "Science: Computers" }
+  ]
+}
+```
+
+#### 2. Question Generation Endpoint
+- **URL**: `https://opentdb.com/api.php`
+- **Method**: `GET`
+- **Query Parameters**:
+  - `amount` (required, integer): Number of questions (1–50).
+  - `category` (required, integer): Category ID from the category list.
+  - `difficulty` (optional, string): Filter by `easy`, `medium`, or `hard`. Omitted if `'any'`.
+  - `type` (optional, string): Filter by `multiple` (Multiple Choice) or `boolean` (True/False). Omitted if `'any'`.
+
+---
+
+### 7.2 API Response Codes & Error Mapping
+
+OpenTDB embeds a `response_code` integer in every JSON payload. The application handles each code explicitly:
+
+| Response Code | OpenTDB Status | Application Handling & User Message |
+|---|---|---|
+| **0** | Success | Questions returned successfully; initializes quiz session. |
+| **1** | No Results | *"Not enough questions for this config. Try fewer questions or different filters."* |
+| **2** | Invalid Parameter | *"Invalid quiz parameters. Please adjust and try again."* |
+| **3** | Token Not Found | Handled as general service exception prompting retry. |
+| **4** | Token Empty | Handled as general service exception prompting retry. |
+| **Other** | Unknown Error | *"Could not load questions (code X). Please retry."* |
+
+---
+
+### 7.3 Sample API Payloads
+
+#### Sample Multiple Choice Question (Raw Response):
+```json
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "multiple",
+      "difficulty": "easy",
+      "category": "Science: Computers",
+      "question": "What does the &quot;MP&quot; stand for in MP3?",
+      "correct_answer": "Moving Picture",
+      "incorrect_answers": [
+        "Music Player",
+        "Multi Pass",
+        "Micro Process"
+      ]
+    }
+  ]
+}
+```
+
+#### Sample Boolean Question:
+```json
+{
+  "response_code": 0,
+  "results": [
+    {
+      "type": "boolean",
+      "difficulty": "medium",
+      "category": "Science: Computers",
+      "question": "The HTML5 standard was published in 2014.",
+      "correct_answer": "True",
+      "incorrect_answers": [
+        "False"
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 8. Data Models & HTML Entity Decoding
+
+### HTML Entity Decoding Engine
+
+Raw text from OpenTDB contains HTML encoded characters that distort UI readability if rendered unprocessed. The app implements a custom decoding algorithm in `lib/models/trivia_question.dart`:
+
+```dart
+String decodeHtmlEntities(String value) {
+  return value
+      .replaceAll('&quot;', '"')
+      .replaceAll('&#039;', "'")
+      .replaceAll('&apos;', "'")
+      .replaceAll('&amp;', '&')
+      .replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAllMapped(RegExp(r'&#(\d+);'), (m) {
+        return String.fromCharCode(int.parse(m.group(1)!));
+      })
+      .replaceAllMapped(RegExp(r'&#x([0-9a-fA-F]+);'), (m) {
+        return String.fromCharCode(int.parse(m.group(1)!, radix: 16));
+      });
+}
+```
+
+#### Decoding Verification Examples:
+- `&quot;Hello World&quot;` $\rightarrow$ `"Hello World"`
+- `Don&#039;t Stop` $\rightarrow$ `Don't Stop`
+- `Ben &amp; Jerry` $\rightarrow$ `Ben & Jerry`
+- `&#65;&#66;&#67;` (Decimal) $\rightarrow$ `ABC`
+- `&#x2665;` (Hexadecimal) $\rightarrow$ `♥`
+
+---
+
+## 9. Local Persistence (SharedPreferences)
+
+User configurations are preserved between application restarts using the `shared_preferences` package.
+
+### Storage Keys & Defaults
+
+| Key Constant | Storage Key String | Data Type | Default Value | Description |
+|---|---|---|---|---|
+| `kPrefsAmount` | `'quiz_amount'` | `int` | `10` | Preferred question batch size (1–50) |
+| `kPrefsDifficulty`| `'quiz_difficulty'` | `String` | `'any'` | Last selected difficulty |
+| `kPrefsType` | `'quiz_type'` | `String` | `'multiple'` | Format preference (`multiple` vs `boolean`) |
+| `kPrefsCategoryId` | `'quiz_category_id'`| `int` | `null` | Most recently played category ID |
+| `kPrefsCategoryName`| `'quiz_category_name'`| `String`| `''` | Most recently played category name |
+
+---
+
+## 10. Design System, Colors & Typography
+
+The visual identity of Quizzical adheres to **Material 3** guidelines, balancing accessibility, readability, and modern aesthetics.
+
+### Color Tokens
+
+```
+Primary Teal:       #00695C  (AppBar, primary buttons, active slider)
+Primary Teal Dark:  #004D40  (Next button, confirmed answers)
+Canvas Background:  #F2F2F2  (Quiz screen background, input fill)
+Charcoal Text:      #37474F  (Headers, bold copy, labels)
+Correct Mint:       #B2DFDB  (Correct answer tile highlight)
+Incorrect Coral:    #FFA1A1  (Wrong answer tile highlight)
+Good Score Green:   #C8E6C9  (Badge highlight for >= 70%)
+Warning Orange:     #FF7043  (Badge highlight for < 70%)
+```
+
+### Pastel Category Palette
+Category tiles rotate across 12 hand-picked pastel hues:
+1. Sky Blue (`#B3E5FC`)
+2. Soft Mint (`#C8E6C9`)
+3. Butter Yellow (`#FFF9C4`)
+4. Lilac (`#E1BEE7`)
+5. Blush Pink (`#F8BBD0`)
+6. Warm Peach (`#FFE0B2`)
+7. Cyan Tint (`#B2EBF2`)
+8. Lime Frost (`#DCEDC8`)
+9. Pale Orange (`#FFCCBC`)
+10. Lavender (`#D1C4E9`)
+11. Soft Amber (`#FFECB3`)
+12. Blue Grey Tint (`#CFD8DC`)
+
+### Typography
+- **GoogleFonts.poppins**: Employed across titles, buttons, timer digits, questions, and option labels for geometric clarity.
+- **GoogleFonts.lora**: Utilized for italic secondary headings (e.g., *"choose a category to focus on:"*).
+
+---
+
+## 11. Error Handling & Edge Cases
+
+| Scenario | Possible Cause | Application Defense Mechanism |
+|---|---|---|
+| **No Internet Connection** | Airplane mode, socket disconnection | Catches `SocketException`/`http.ClientException`, enters `error` phase, displays `RetryBanner` with manual retry. |
+| **API Rate Limiting** | Spamming requests to OpenTDB | Catches HTTP non-200 responses, surfaces clean error toast/banner without crashing. |
+| **Zero Questions Available** | Strict filters (e.g., 50 Hard True/False questions in Art) | Translates OpenTDB code 1 into *"Not enough questions for this config. Try fewer questions or different filters."* |
+| **Timer Runs Out** | User inactivity or difficult question | Automatically triggers `_onTimeout()`, marks `timedOut = true`, reveals the correct answer in green, and advances smoothly. |
+| **Accidental Mid-Quiz Back Tap** | User taps back button or EXIT | Intercepted by confirmation dialog warning that session data will be cleared. |
+| **Rapid Double Taps on Answers** | Fast tapping on multiple options | Input is locked the instant the first option is registered (`_phase != QuizPhase.playing`). |
+
+---
+
+## 12. Prerequisites & Development Environment
+
+Before executing the project, ensure your workstation meets the following specifications:
+
+- **Flutter SDK**: Version `3.11.1` or higher
+- **Dart SDK**: Version `3.11.1` or higher
+- **IDE**: Android Studio, VS Code, or Antigravity IDE with Flutter & Dart extensions
+- **Target Platforms Supported**:
+  - Android (API level 21+)
+  - iOS (iOS 12.0+)
+  - Web (Chrome, Edge, Safari, Firefox)
+  - macOS (macOS 10.14+)
+  - Linux Desktop
+  - Windows Desktop
+
+---
+
+## 13. Installation & Build Instructions
+
+### 1. Clone the Codebase
 ```bash
-# Auto-detect connected device
+git clone https://github.com/Niaze-33/FlutterClassExam.git
+cd FlutterClassExam
+```
+
+### 2. Fetch Packages
+```bash
+flutter pub get
+```
+
+### 3. Verify Environment Integrity
+```bash
+flutter doctor
+```
+
+### 4. Run Locally
+
+#### Run on Connected Device / Default Emulator:
+```bash
 flutter run
+```
 
-# Run on Chrome (Web)
+#### Run on Web (Chrome):
+```bash
 flutter run -d chrome
+```
 
-# Run on macOS Desktop
+#### Run on macOS Desktop:
+```bash
 flutter run -d macos
+```
 
-# Run on iOS Simulator
+#### Run on iOS Simulator:
+```bash
 flutter run -d ios
+```
 
-# Run on Android Emulator
+#### Run on Android Emulator:
+```bash
 flutter run -d android
 ```
 
+### 5. Build for Production
+
+#### Build Android APK:
+```bash
+flutter build apk --release
+```
+
+#### Build Android App Bundle (AAB):
+```bash
+flutter build appbundle --release
+```
+
+#### Build Web Release:
+```bash
+flutter build web --release
+```
+
+#### Build macOS Application:
+```bash
+flutter build macos --release
+```
+
 ---
 
-## 🔧 Configuration & Customization
+## 14. Testing & Quality Assurance
 
-All primary quiz settings and student metadata are centralized in [lib/core/quiz_constants.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/core/quiz_constants.dart):
+The codebase includes automated test suites and helper mocks.
+
+### Executing Tests
+```bash
+flutter test
+```
+
+### Static Analysis & Lint Checks
+```bash
+flutter analyze
+```
+
+Code formatting adheres to Flutter standard lints (`package:flutter_lints`).
+
+---
+
+## 15. Configuration & Customization Guide
+
+All primary metadata, timers, and question thresholds can be configured in a single file: `lib/core/quiz_constants.dart`.
 
 ```dart
-/// Shown under the Quizzical title on the welcome screen.
+// Student / Author branding displayed on Welcome Screen
 const String kStudentName = 'Imam Hosen';
 
-/// Default and range settings for question counts
+// Default, minimum, and maximum question limits
 const int kDefaultQuestionAmount = 10;
 const int kMinQuestionAmount = 1;
 const int kMaxQuestionAmount = 50;
 
-/// Question timer duration in seconds
+// Countdown timer duration in seconds for each question
 const int kQuestionTimerSeconds = 30;
 ```
 
-To customize:
-1. Update `kStudentName` to display your preferred student or author name on the Welcome screen.
-2. Adjust `kQuestionTimerSeconds` to increase or decrease the countdown time limit.
-3. Modify the pastel color palette in [lib/core/quiz_theme.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/core/quiz_theme.dart) under `kCategoryPastels`.
+### Customization Recipes:
+1. **Change Author Name**: Update `kStudentName` to your own name; it will automatically reflect on the welcome screen.
+2. **Speed Run Mode**: Set `kQuestionTimerSeconds = 15` for a fast-paced trivia challenge.
+3. **Change Default Question Batch**: Modify `kDefaultQuestionAmount = 20` to default to 20 questions.
 
 ---
 
-## 📦 Key Dependencies
+## 16. Dependencies Reference
 
-| Package | Version | Purpose |
+The application relies on verified packages defined in `pubspec.yaml`:
+
+| Dependency | Version Constraint | Architecture Purpose |
 |---|---|---|
-| [`provider`](https://pub.dev/packages/provider) | `^6.1.5+1` | Reactive state management & dependency injection |
-| [`http`](https://pub.dev/packages/http) | `^1.6.0` | HTTP requests to Open Trivia Database |
-| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | `^2.5.3` | Persistent local storage for quiz preferences |
-| [`google_fonts`](https://pub.dev/packages/google_fonts) | `^6.2.1` | Typography (`Poppins` & `Lora`) |
-| [`cached_network_image`](https://pub.dev/packages/cached_network_image) | `^3.4.1` | Network image loading and caching |
-| [`iconsax`](https://pub.dev/packages/iconsax) | `^0.0.8` | Modern iconography |
-| [`intl`](https://pub.dev/packages/intl) | `^0.20.3` | Date, time, and number formatting |
+| `flutter` | SDK | Core Flutter framework |
+| `provider` | `^6.1.5+1` | Reactive state management (`CategoryProvider`, `QuizProvider`) |
+| `http` | `^1.6.0` | Asynchronous HTTP client for Open Trivia Database |
+| `shared_preferences` | `^2.5.3` | Persistent key-value local storage |
+| `google_fonts` | `^6.2.1` | Typography (`Poppins` and `Lora`) |
+| `cached_network_image`| `^3.4.1` | High-performance image caching utilities |
+| `iconsax` | `^0.0.8` | Curated icon library |
+| `cupertino_icons` | `^1.0.8` | iOS Cupertino style icons |
+| `intl` | `^0.20.3` | Number and date formatting tools |
+| `flutter_lints` (dev) | `^5.0.0` | Recommended code style rules |
 
 ---
 
-## 👨‍💻 Author & Acknowledgments
+## 17. Project Metadata & Author Information
 
-- **Developed for**: Flutter Class Exam / Project Submission
+- **Project Title**: Quizzical — Flutter Trivia Application
+- **Context**: Flutter Class Exam / Project Submission
 - **Student Name**: Imam Hosen
-- **Data Source**: [Open Trivia Database (OpenTDB)](https://opentdb.com/)
-- **Repository**: [GitHub — Niaze-33/FlutterClassExam](https://github.com/Niaze-33/FlutterClassExam)
+- **Repository**: [https://github.com/Niaze-33/FlutterClassExam](https://github.com/Niaze-33/FlutterClassExam)
+- **Data Provider**: [Open Trivia Database](https://opentdb.com/)
+- **License**: MIT License
 
 ---
 
-<p align="center">
-  Made with ❤️ and Flutter
-</p>
+End of Documentation.
