@@ -1,309 +1,341 @@
-<div align="center">
+# 🧠 Quizzical — Flutter Trivia & Quiz App
 
-  <img src="assets/logo.png" alt="Recipe App Logo" width="120" style="border-radius: 28px; box-shadow: 0 12px 32px rgba(0,0,0,0.18);"/>
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Provider](https://img.shields.io/badge/State_Management-Provider-blueviolet?style=for-the-badge)](https://pub.dev/packages/provider)
+[![API](https://img.shields.io/badge/API-Open_Trivia_DB-orange?style=for-the-badge)](https://opentdb.com/)
+[![Material Design](https://img.shields.io/badge/Material_3-Ready-green?style=for-the-badge)](https://m3.material.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-  # 🍽️ Recipe App
-
-  <p align="center">
-    <strong>A next-generation culinary companion built with Flutter, Provider & Firebase.</strong><br/>
-    Smart meal planning · Real-time cloud sync · Lightning-fast discovery · Distraction-free cooking mode · Community reviews
-  </p>
-
-  <!-- Nav Links -->
-  <p align="center">
-    <a href="#-app-showcase">Showcase</a> •
-    <a href="#-features">Features</a> •
-    <a href="#-tech-stack">Tech Stack</a> •
-    <a href="#-architecture">Architecture</a> •
-    <a href="#-getting-started">Getting Started</a> •
-    <a href="#-download-apk">Download APK</a>
-  </p>
-
-  <!-- Tech Badges -->
-  <p align="center">
-    <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter"/>
-    <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart"/>
-    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase"/>
-    <img src="https://img.shields.io/badge/Provider-State%20Management-2ECC71?style=for-the-badge" alt="Provider"/>
-  </p>
-
-  <!-- Status & Stats Badges -->
-  <p align="center">
-    <a href="https://github.com/Yeamin-Talukder/Recipe-App/releases/latest">
-      <img src="https://img.shields.io/github/v/release/Yeamin-Talukder/Recipe-App?color=2ECC71&label=Latest%20Release&style=flat-square" alt="Latest Release"/>
-    </a>
-    <a href="https://github.com/Yeamin-Talukder/Recipe-App/releases">
-      <img src="https://img.shields.io/github/downloads/Yeamin-Talukder/Recipe-App/total?color=F39C12&label=Total%20Downloads&logo=android&style=flat-square" alt="Total Downloads"/>
-    </a>
-    <img src="https://img.shields.io/github/stars/Yeamin-Talukder/Recipe-App?color=F1C40F&style=flat-square&logo=github" alt="GitHub Stars"/>
-    <img src="https://img.shields.io/github/forks/Yeamin-Talukder/Recipe-App?color=2ECC71&style=flat-square&logo=github" alt="Forks"/>
-    <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-orange?style=flat-square" alt="Platform"/>
-    <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License"/>
-    <img src="https://visitor-badge.laobi.icu/badge?page_id=Yeamin-Talukder.Recipe-App" alt="Visitors"/>
-  </p>
-
-  <br/>
-
-  <!-- Download CTA -->
-  <a href="https://github.com/Yeamin-Talukder/Recipe-App/releases/latest">
-    <img src="https://img.shields.io/badge/⚡_DOWNLOAD_LATEST_APK-2ECC71?style=for-the-badge&logo=android&logoColor=white" height="44" alt="Download APK"/>
-  </a>
-
-</div>
+**Quizzical** is a modern, responsive, and feature-packed Flutter quiz application powered by the [Open Trivia Database (OpenTDB)](https://opentdb.com/) REST API. Built with clean architecture principles and the **Provider** state management pattern, Quizzical offers an engaging trivia experience with dynamic categories, customizable quiz configurations, real-time countdown timers, interactive answer reveals, score tracking, and persistent user preferences.
 
 ---
 
-## 📱 App Showcase
+## 📑 Table of Contents
 
-<div align="center">
-  <table>
-    <thead>
-      <tr>
-        <th align="center">🏠 Home & Explore</th>
-        <th align="center">❤️ Saved Favourites</th>
-        <th align="center">📅 Smart Meal Planner</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td align="center">
-          <img src="assets/screenshots/home_screen.jpg" width="230" alt="Home Screen" style="border-radius: 16px;"/>
-        </td>
-        <td align="center">
-          <img src="assets/screenshots/favorites_screen.jpg" width="230" alt="Favourites Screen" style="border-radius: 16px;"/>
-        </td>
-        <td align="center">
-          <img src="assets/screenshots/meal_plan_screen.jpg" width="230" alt="Meal Planner" style="border-radius: 16px;"/>
-        </td>
-      </tr>
-      <tr>
-        <td align="center"><b>Smart Search & Categories</b></td>
-        <td align="center"><b>Instant Cloud-Synced Recipes</b></td>
-        <td align="center"><b>Weekly Breakfast, Lunch & Dinner</b></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <br/>
-
-  <table>
-    <thead>
-      <tr>
-        <th align="center">🌙 Dark Theme</th>
-        <th align="center">☀️ Light Theme</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td align="center">
-          <img src="assets/screenshots/settings_dark_screen.jpg" width="250" alt="Dark Theme" style="border-radius: 16px;"/>
-        </td>
-        <td align="center">
-          <img src="assets/screenshots/settings_light_screen.jpg" width="250" alt="Light Theme" style="border-radius: 16px;"/>
-        </td>
-      </tr>
-      <tr>
-        <td align="center"><b>Deep OLED Contrast & Emerald Accents</b></td>
-        <td align="center"><b>Crisp, Accessible & Minimalist</b></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+- [✨ Key Features](#-key-features)
+- [📱 App Walkthrough & User Flow](#-app-walkthrough--user-flow)
+- [🏗️ Architecture & Project Structure](#️-architecture--project-structure)
+- [🎨 Design System & Theme](#-design-system--theme)
+- [🌐 API Integration (OpenTDB)](#-api-integration-opentdb)
+- [⚙️ State Management (Provider)](#️-state-management-provider)
+- [💾 Local Persistence (SharedPreferences)](#-local-persistence-sharedpreferences)
+- [🚀 Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation & Setup](#installation--setup)
+  - [Running the App](#running-the-app)
+- [🔧 Configuration & Customization](#-configuration--customization)
+- [📦 Key Dependencies](#-key-dependencies)
+- [👨‍💻 Author & Acknowledgments](#-author--acknowledgments)
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-```
- ╭──────────────────╮      ╭──────────────────╮      ╭──────────────────╮
- │  ⚡ Instant Sync │      │  📅 Meal Planner │      │  🎨 Adaptive UI  │
- │  Firebase Cloud  │ ──▶  │  Organize Week   │ ──▶  │  OLED Dark Mode  │
- │  Google Sign-In  │      │  Breakfast/Lunch │      │  & Light Mode    │
- ╰──────────────────╯      ╰──────────────────╯      ╰──────────────────╯
+- **🌐 Live Trivia Categories**: Fetches 20+ trivia categories directly from the Open Trivia Database API (e.g., General Knowledge, Science & Nature, Computers, History, Film, Music, Sports, Anime, and more).
+- **🎨 Dynamic Pastel Category Cards**: Each category is paired with custom pastel aesthetics and context-aware category icons (books, controllers, science beakers, globe, etc.).
+- **⚙️ Deep Quiz Customization**:
+  - **Question Count**: Adjustable slider (1 to 50 questions, default 10).
+  - **Difficulty Filter**: Any, Easy, Medium, or Hard.
+  - **Question Type**: Multiple Choice (4 choices) or True / False (boolean).
+- **⏱️ Real-time 30-Second Question Timer**:
+  - Visual countdown timer per question.
+  - Visual color alerts (transitions to red when $\le 5$ seconds remain).
+  - Auto-timeout handling: reveals correct answer automatically and advances smoothly.
+- **🎯 Instant Interactive Feedback**:
+  - Highlights correct answers in soothing mint green (`#B2DFDB`).
+  - Highlights wrong selections in coral red (`#FFA1A1`) while revealing the correct answer.
+  - Randomized answer positions with HTML entity decoding (e.g., `&quot;`, `&#039;`).
+- **📊 Comprehensive Results & Performance Analytics**:
+  - Accuracy percentage calculation with responsive badge colors (green for $\ge 70\%$, orange for $< 70\%$).
+  - Elapsed total quiz session time formatted in minutes and seconds (`Xm Ys`).
+  - Motivational messages tailored to performance with an instant "Play Again" flow.
+- **🛡️ Progress Safeguards & Confirmation**:
+  - Mid-quiz confirmation dialog to prevent accidental exits and loss of progress.
+- **💾 Preference Persistence**:
+  - Saves your last chosen question amount, difficulty, question type, and category via `SharedPreferences`.
+- **🔄 Robust Error Handling & Skeletons**:
+  - Custom skeleton loading states for category grids and quiz questions.
+  - Inline retry banners for network drops or API rate limit issues.
+- **📱 Responsive & Cross-Platform**:
+  - Adaptive column layouts supporting phones, tablets, and desktop/web widths.
+
+---
+
+## 📱 App Walkthrough & User Flow
+
+```mermaid
+flowchart LR
+    A[Welcome Screen] -->|Start Quiz| B[Category Selection]
+    B -->|Select Category| C[Quiz Configuration]
+    C -->|Start| D[Quiz Playing Screen]
+    D -->|Timer / Answers| D
+    D -->|Last Question| E[Results Screen]
+    E -->|Play Again| B
 ```
 
-| # | Feature | Description |
-|---|---|---|
-| 🌟 | **Adaptive Dark & Light Theme** | Seamless toggle between an ultra-sleek dark theme and an airy, polished light theme |
-| 🔍 | **Instant Recipe Discovery** | Browse by categories (Dinner, Lunch, Breakfast, Desserts) with sub-millisecond search filtering |
-| 📅 | **Interactive Meal Planner** | Plan meals across Mon–Sun for Breakfast, Lunch & Dinner with counters |
-| ⭐ | **Community Reviews** | Write, edit & delete star-rated reviews per recipe with a live rating aggregate |
-| ☁️ | **Cloud Sync & Google Auth** | One-tap Google Sign-In keeps favourites & meal plans synced across devices |
-| 👤 | **Guest Mode** | Explore recipes instantly — no forced sign-up, contextual prompts only |
-| 🍳 | **Cooking Mode** | Distraction-free step-by-step view with screen-always-on during cooking |
-| ⚡ | **Performance & Caching** | Smooth 60/120 FPS scrolling with `cached_network_image` and optimized state |
-| 📦 | **Split ABI Builds** | Small, architecture-optimised APKs (`arm64-v8a`, `armeabi-v7a`) |
+### 1. Welcome Screen (`WelcomeScreen`)
+- Displays playful illustrated vector art with decorative geometric accents.
+- Displays app branding **Quizzical** alongside the student/creator name.
+- Primary **"START QUIZ"** action button launching category exploration.
+
+### 2. Category Selection Screen (`CategorySelectionScreen`)
+- Automatically loads categories from OpenTDB with in-memory caching to avoid redundant requests.
+- Grid view with pastel-tinted cards and domain-specific icons.
+- Skeleton placeholder shimmer effect during initial network requests.
+- Non-intrusive retry banner if network connectivity is lost.
+
+### 3. Quiz Configuration Screen (`QuizConfigScreen`)
+- Fine-tune your trivia experience:
+  - **Amount Slider**: 1 to 50 questions.
+  - **Difficulty Dropdown**: Any, Easy, Medium, Hard.
+  - **Type Dropdown**: Multiple Choice or True / False.
+- Automatically saves selected parameters for future sessions.
+- Displays a dedicated loading skeleton while fetching and assembling questions.
+
+### 4. Quiz Screen (`QuizScreen`)
+- Header displaying current question indicator (`X / Total`), linear progress bar, live score counter, and remaining time.
+- Question card with decoded HTML typography.
+- Answer tiles with instant visual color response (correct, incorrect, or timeout state).
+- "Next" / "See Results" action button for user-controlled pacing.
+- Safety dialog on exit attempt.
+
+### 5. Results Screen (`ResultsScreen`)
+- Celebration icon & message for scores $\ge 70\%$, or encouraging workout icon for scores $< 70\%$.
+- Score percentage badge with soft elevation shadow.
+- Breakdown of correct answers and total time elapsed.
+- "PLAY AGAIN" button resetting session state and returning to category selection.
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture & Project Structure
 
-Built following clean architecture principles with **Provider** for state management:
+The project follows a clean **MVVM-inspired layered architecture** utilizing Flutter's **Provider** pattern:
 
-```text
-lib/
-├── core/                        # Design system: tokens, colors, themes
-│   ├── constants.dart           # Global colors, margins, app constants
-│   └── theme.dart               # Dark & Light ThemeData configurations
-│
-├── models/                      # Strongly-typed data models
-│   ├── recipe.dart              # Recipe — macros, ingredients, instructions
-│   ├── review.dart              # Review — star rating, comment, user info
-│   ├── meal_plan.dart           # Weekly scheduled meal model
-│   └── user_model.dart          # Firebase user entity
-│
-├── providers/                   # Reactive state (ChangeNotifier)
-│   ├── auth_provider.dart       # User session & Google authentication
-│   ├── recipe_provider.dart     # Search, filter, recipe list state
-│   ├── favorite_provider.dart   # Bookmarks & favorites state
-│   ├── review_provider.dart     # Real-time review stream & submission
-│   ├── meal_plan_provider.dart  # Weekly scheduling logic & counters
-│   └── settings_provider.dart   # Theme persistence & toggle
-│
-├── repositories/                # Abstracted data access layer
-│   ├── recipe_repository.dart   # Local & remote recipe sources + seeding
-│   ├── review_repository.dart   # Atomic review CRUD with rating aggregation
-│   └── user_repository.dart     # Firestore sync & user document updates
-│
-├── services/                    # Third-party integrations
-│   ├── auth_service.dart        # FirebaseAuth & GoogleSignIn
-│   └── firestore_service.dart   # Firestore CRUD + transactions + streams
-│
-└── ui/                          # Presentation layer
-    ├── screens/                 # Full-page views
-    │   ├── home_screen.dart
-    │   ├── recipe_details_screen.dart   # Includes review section
-    │   ├── favorite_screen.dart
-    │   ├── meal_plan_screen.dart
-    │   ├── cooking_mode_screen.dart
-    │   └── settings_screen.dart
-    └── widgets/                 # Modular, reusable components
-        ├── review_section.dart       # Rating bar + review list
-        ├── review_card.dart          # Individual review card
-        ├── review_input_sheet.dart   # Animated star picker + comment sheet
-        └── ...                       # Cards, search bar, nav, etc.
+```
+FlutterClassExam/
+├── android/                      # Android native configuration
+├── ios/                          # iOS native configuration
+├── web/                          # Web configuration & assets
+├── assets/                       # Static assets and screenshots
+│   ├── logo.png                  # App icon / launcher logo
+│   └── screenshots/              # UI screenshots
+├── lib/
+│   ├── main.dart                 # Application entry point & Provider registration
+│   ├── app.dart                  # QuizzicalApp MaterialApp root & theme setup
+│   ├── core/
+│   │   ├── quiz_constants.dart   # App-wide constants (student name, timers, keys)
+│   │   └── quiz_theme.dart       # Material 3 theme data, colors, typography
+│   ├── models/
+│   │   ├── trivia_category.dart  # TriviaCategory model with JSON serialization
+│   │   └── trivia_question.dart  # TriviaQuestion model with HTML entity decoding
+│   ├── services/
+│   │   └── opentdb_service.dart  # OpenTDB REST API client & error handling
+│   ├── providers/
+│   │   ├── category_provider.dart# State management for category fetching & caching
+│   │   └── quiz_provider.dart    # State management for active quiz, timer & scoring
+│   ├── ui/
+│   │   ├── screens/
+│   │   │   ├── welcome_screen.dart           # Intro screen with branding
+│   │   │   ├── category_selection_screen.dart# Category grid screen
+│   │   │   ├── quiz_config_screen.dart       # Filters and quiz settings screen
+│   │   │   ├── quiz_screen.dart              # Interactive quiz playing screen
+│   │   │   └── results_screen.dart           # Final score and stats screen
+│   │   └── widgets/
+│   │       └── quiz_widgets.dart             # RetryBanner, CategorySkeletonGrid, QuizLoadingSkeleton
+│   └── ...
+├── pubspec.yaml                  # Project dependencies and asset definitions
+└── README.md                     # Project documentation
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🎨 Design System & Theme
 
-| Category | Technology | Notes |
-|---|---|---|
-| **Framework** | [Flutter](https://flutter.dev/) 3.11+ | Cross-platform UI toolkit |
-| **Language** | [Dart](https://dart.dev/) | Null-safe, strongly typed |
-| **State** | [Provider](https://pub.dev/packages/provider) 6.x | Decoupled reactive state & DI |
-| **Database** | [Cloud Firestore](https://firebase.google.com/products/firestore) | Real-time NoSQL, atomic transactions |
-| **Auth** | [Firebase Auth](https://firebase.google.com/products/auth) + [Google Sign-In](https://pub.dev/packages/google_sign_in) | Secure OAuth2 SSO |
-| **Typography** | [Google Fonts — Inter](https://fonts.google.com/specimen/Inter) | Clean modern hierarchy |
-| **Icons** | [Iconsax](https://pub.dev/packages/iconsax) | Polished outline icon set |
-| **Image Cache** | [CachedNetworkImage](https://pub.dev/packages/cached_network_image) | Efficient async image loading |
-| **Date Formatting** | [intl](https://pub.dev/packages/intl) | Locale-aware review date display |
-| **Preferences** | [SharedPreferences](https://pub.dev/packages/shared_preferences) | Theme & settings persistence |
+Quizzical implements a customized **Material 3** theme with bespoke color tokens and typography from **Google Fonts**:
+
+### 🎨 Color Palette
+
+| Token | Hex | Preview | Description |
+|---|---|---|---|
+| `kQuizPrimary` | `#00695C` | ![#00695C](https://via.placeholder.com/15/00695C/000000?text=+) | Deep Teal (Brand Primary) |
+| `kQuizPrimaryDark` | `#004D40` | ![#004D40](https://via.placeholder.com/15/004D40/000000?text=+) | Dark Teal (Buttons & Accents) |
+| `kQuizBg` | `#F2F2F2` | ![#F2F2F2](https://via.placeholder.com/15/F2F2F2/000000?text=+) | Light Canvas Background |
+| `kQuizText` | `#37474F` | ![#37474F](https://via.placeholder.com/15/37474F/000000?text=+) | Slate Charcoal (Primary Text) |
+| `kQuizCorrectBg` | `#B2DFDB` | ![#B2DFDB](https://via.placeholder.com/15/B2DFDB/000000?text=+) | Mint Green (Correct Answer Highlight) |
+| `kQuizIncorrectBg` | `#FFA1A1` | ![#FFA1A1](https://via.placeholder.com/15/FFA1A1/000000?text=+) | Coral Pink (Incorrect Answer Highlight) |
+| `kQuizScoreGood` | `#C8E6C9` | ![#C8E6C9](https://via.placeholder.com/15/C8E6C9/000000?text=+) | Soft Green (High Score Badge $\ge 70\%$) |
+| `kQuizScoreBad` | `#FF7043` | ![#FF7043](https://via.placeholder.com/15/FF7043/000000?text=+) | Deep Orange (Low Score Badge $< 70\%$) |
+
+### 🔤 Typography
+- **Headings & Buttons**: `GoogleFonts.poppins` for clean, modern legibility.
+- **Subtitles & Italic Accents**: `GoogleFonts.lora` for refined editorial contrast.
+
+---
+
+## 🌐 API Integration (OpenTDB)
+
+The app integrates with the public **[Open Trivia Database](https://opentdb.com/api_config.php)**:
+
+### Endpoints Used
+
+1. **Fetch Categories**:
+   ```http
+   GET https://opentdb.com/api_category.php
+   ```
+   *Returns the full catalog of available trivia categories and IDs.*
+
+2. **Fetch Questions**:
+   ```http
+   GET https://opentdb.com/api.php?amount={amount}&category={categoryId}&difficulty={difficulty}&type={type}
+   ```
+   *Query Parameters:*
+   - `amount`: Number of questions requested (1–50).
+   - `category`: Category ID (e.g., `9` for General Knowledge, `18` for Computers).
+   - `difficulty`: `easy`, `medium`, or `hard` (omitted if 'any').
+   - `type`: `multiple` or `boolean` (omitted if 'any').
+
+### Robust HTML Entity Decoding
+Trivia questions and answers from OpenTDB often contain HTML entities (e.g., `&quot;`, `&#039;`, `&amp;`, `&eacute;`). Quizzical includes a custom regex-based parser in [trivia_question.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/models/trivia_question.dart) supporting decimal (`&#NN;`), hexadecimal (`&#xHH;`), and standard named HTML entities.
+
+---
+
+## ⚙️ State Management (Provider)
+
+Quizzical utilizes `provider` with `ChangeNotifier` for clean, decoupled state:
+
+```mermaid
+graph TD
+    A[main.dart: MultiProvider] --> B[CategoryProvider]
+    A --> C[QuizProvider]
+    B -->|Categories Cache & Loading States| D[CategorySelectionScreen]
+    C -->|Configuration & Persistence| E[QuizConfigScreen]
+    C -->|Timer, Scoring, Phase, Current Question| F[QuizScreen]
+    C -->|Score, Elapsed Time, Accuracy| G[ResultsScreen]
+```
+
+- **`CategoryProvider`**:
+  - Handles `CategoryLoadState` (`initial`, `loading`, `loaded`, `error`).
+  - In-memory caching: loads categories once per app run unless an explicit retry is requested.
+- **`QuizProvider`**:
+  - Handles `QuizPhase` (`idle`, `loading`, `playing`, `answered`, `finished`, `error`).
+  - Controls 30s countdown timer via Dart's `Timer.periodic`.
+  - Tracks score, selected answers, timeout events, and total time elapsed.
+  - Automatically loads and persists configuration preferences.
+
+---
+
+## 💾 Local Persistence (SharedPreferences)
+
+The app remembers user settings between app launches using `shared_preferences`:
+
+| Preference Key | Type | Description | Default |
+|---|---|---|---|
+| `quiz_amount` | `int` | Number of questions per quiz | `10` |
+| `quiz_difficulty`| `String` | Difficulty level (`any`, `easy`, `medium`, `hard`) | `'any'` |
+| `quiz_type` | `String` | Question format (`multiple`, `boolean`) | `'multiple'` |
+| `quiz_category_id` | `int` | Last chosen category ID | `null` |
+| `quiz_category_name` | `String` | Last chosen category name | `''` |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- [Flutter SDK](https://docs.flutter.dev/get-started/install) `^3.11.1`
-- [Android Studio](https://developer.android.com/studio) or [VS Code](https://code.visualstudio.com/) with Flutter & Dart extensions
-- Active [Firebase](https://console.firebase.google.com/) project
 
-### 1. Clone & Install
+Ensure you have the following installed on your machine:
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (`^3.11.1` or higher)
+- [Dart SDK](https://dart.dev/get-dart)
+- An active emulator, simulator, or physical device (Android, iOS, macOS, Windows, Linux, or Web)
+
+### Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Niaze-33/FlutterClassExam.git
+   cd FlutterClassExam
+   ```
+
+2. **Install Flutter packages**:
+   ```bash
+   flutter pub get
+   ```
+
+3. **Verify Flutter setup**:
+   ```bash
+   flutter doctor
+   ```
+
+### Running the App
+
+Run on your connected device or simulator:
 
 ```bash
-git clone https://github.com/Yeamin-Talukder/Recipe-App.git
-cd Recipe-App
-flutter pub get
-```
-
-### 2. Firebase Configuration
-
-```bash
-# Install FlutterFire CLI
-dart pub global activate flutterfire_cli
-
-# Link your Firebase project
-flutterfire configure
-```
-
-Then enable in the Firebase Console:
-- ✅ **Authentication → Google Sign-In**
-- ✅ **Cloud Firestore** (with auth rules)
-
-### 3. Run the App
-
-```bash
-# Hot-reload development
+# Auto-detect connected device
 flutter run
 
-# Optimised release build (split ABI)
-flutter build apk --split-per-abi
+# Run on Chrome (Web)
+flutter run -d chrome
+
+# Run on macOS Desktop
+flutter run -d macos
+
+# Run on iOS Simulator
+flutter run -d ios
+
+# Run on Android Emulator
+flutter run -d android
 ```
 
 ---
 
-## 📦 Download APK
+## 🔧 Configuration & Customization
 
-<div align="center">
+All primary quiz settings and student metadata are centralized in [lib/core/quiz_constants.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/core/quiz_constants.dart):
 
-| Build | Architecture | Size |
+```dart
+/// Shown under the Quizzical title on the welcome screen.
+const String kStudentName = 'Imam Hosen';
+
+/// Default and range settings for question counts
+const int kDefaultQuestionAmount = 10;
+const int kMinQuestionAmount = 1;
+const int kMaxQuestionAmount = 50;
+
+/// Question timer duration in seconds
+const int kQuestionTimerSeconds = 30;
+```
+
+To customize:
+1. Update `kStudentName` to display your preferred student or author name on the Welcome screen.
+2. Adjust `kQuestionTimerSeconds` to increase or decrease the countdown time limit.
+3. Modify the pastel color palette in [lib/core/quiz_theme.dart](file:///Users/mahmudulhasanniaze/FlutterClass/FlutterClassExam/lib/core/quiz_theme.dart) under `kCategoryPastels`.
+
+---
+
+## 📦 Key Dependencies
+
+| Package | Version | Purpose |
 |---|---|---|
-| `app-arm64-v8a-release.apk` | 64-bit ARM | Smallest on modern phones |
-| `app-armeabi-v7a-release.apk` | 32-bit ARM | Older device support |
-
-<a href="https://github.com/Yeamin-Talukder/Recipe-App/releases/latest">
-  <img src="https://img.shields.io/badge/⬇️_DOWNLOAD_FROM_RELEASES-2ECC71?style=for-the-badge&logo=android&logoColor=white" height="44" alt="Download APK"/>
-</a>
-
-<br/>
-
-<img src="https://img.shields.io/github/downloads/Yeamin-Talukder/Recipe-App/total?color=F39C12&label=Total%20APK%20Downloads&logo=android&style=for-the-badge" alt="Total Downloads"/>
-
-</div>
+| [`provider`](https://pub.dev/packages/provider) | `^6.1.5+1` | Reactive state management & dependency injection |
+| [`http`](https://pub.dev/packages/http) | `^1.6.0` | HTTP requests to Open Trivia Database |
+| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | `^2.5.3` | Persistent local storage for quiz preferences |
+| [`google_fonts`](https://pub.dev/packages/google_fonts) | `^6.2.1` | Typography (`Poppins` & `Lora`) |
+| [`cached_network_image`](https://pub.dev/packages/cached_network_image) | `^3.4.1` | Network image loading and caching |
+| [`iconsax`](https://pub.dev/packages/iconsax) | `^0.0.8` | Modern iconography |
+| [`intl`](https://pub.dev/packages/intl) | `^0.20.3` | Date, time, and number formatting |
 
 ---
 
-## 🤝 Contributing
+## 👨‍💻 Author & Acknowledgments
 
-Contributions are what make the open-source community such an amazing place to learn and build. Any contributions are **greatly appreciated**!
-
-1. **Fork** the project
-2. **Create** a feature branch → `git checkout -b feature/AmazingFeature`
-3. **Commit** your changes → `git commit -m 'feat: add amazing feature'`
-4. **Push** → `git push origin feature/AmazingFeature`
-5. **Open a Pull Request** 🎉
+- **Developed for**: Flutter Class Exam / Project Submission
+- **Student Name**: Imam Hosen
+- **Data Source**: [Open Trivia Database (OpenTDB)](https://opentdb.com/)
+- **Repository**: [GitHub — Niaze-33/FlutterClassExam](https://github.com/Niaze-33/FlutterClassExam)
 
 ---
 
-## 👨‍💻 Author
-
-**MD Yeamen Talukder**
-
-<p>
-  <a href="https://github.com/Yeamin-Talukder">
-    <img src="https://img.shields.io/badge/GitHub-@Yeamin--Talukder-181717?style=flat-square&logo=github" alt="GitHub"/>
-  </a>
-  <a href="mailto:mdyeamen611@gmail.com">
-    <img src="https://img.shields.io/badge/Email-mdyeamen611@gmail.com-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email"/>
-  </a>
+<p align="center">
+  Made with ❤️ and Flutter
 </p>
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
-<div align="center">
-  <br/>
-  <img src="https://img.shields.io/github/downloads/Yeamin-Talukder/Recipe-App/total?color=2ECC71&label=APKs%20Downloaded&logo=android&style=flat-square" alt="Downloads"/>
-  &nbsp;
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=Yeamin-Talukder.Recipe-App" alt="Profile Views"/>
-  <br/><br/>
-  <sub>Crafted with ❤️, ☕ and Flutter by MD Yeamen Talukder</sub>
-</div>
-# FlutterClassExam
-
-# FlutterClassExam
