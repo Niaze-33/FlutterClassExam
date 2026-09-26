@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663618775537",
+    "project_id": "appdevelopmentcourse-6ee51",
+    "storage_bucket": "appdevelopmentcourse-6ee51.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663618775537:android:55f27daa521c2adeea3c50",
+        "android_client_info": {
+          "package_name": "mdimamhosen02.fasdfas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDJ2QvG5KhNYrx_qchNgyUC4zY7kKwoyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
